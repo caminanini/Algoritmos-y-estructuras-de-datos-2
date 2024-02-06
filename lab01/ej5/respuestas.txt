@@ -1,0 +1,21 @@
+1 -¿Por qué falla la compilación?
+La compilación falla porque para compilar array_helpers.c antes se debe compilar array_helpers.h y ambos a su vez 
+compilan mybool.h, entonces al compilarse dos veces este último archivo .h ocurre un error de redefinición 
+(Formalmente una causante del error se especifica como: Inclusión múltiple de un archivo de encabezado que contiene 
+la definición de la misma entidad en diferentes archivos o en diferentes partes del mismo archivo).
+
+
+2 -¿Cómo se resuelve el problema?
+Para resolver el problema utilizo la directiva #ifndef, que se utiliza para evitar la inclusión repetida de un archivo 
+de encabezado en un programa; básicamente le indica al compilador que lo que se encuentra definida en ella se puede 
+ignorar si ya se encuentra definida en otro momento y sino lo compila. Esto lo hace de la siguiente manera:
+
+#ifndef NOMBRE_DE_LA_CONSTANTE
+#define NOMBRE_DE_LA_CONSTANTE
+// Código
+#endif
+
+Donde el NOMBRE_DE_LA_CONSTANTE es una especie de "palabra clave" que utiliza el compilador para saber si la misma ya 
+está creada/definida. Si no se encuentra definida se asigna a esa "palabra clave" una definición (que es el Código), 
+pero si ya está asociada a algo directamente la salta para evita ese error. Finalmente se debe incluir #endif que marca 
+el final de la directiva.
